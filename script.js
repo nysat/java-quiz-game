@@ -42,11 +42,14 @@ const questionElement = document.getElementById('question'); // declaring a vari
 const answerButton = document.getElementById('answer-buttons'); //declaring a variable for the answer buttons in the html
 const nextButton = document.getElementById('next-btn');// declaring a variable for the next button in the html
 const startButton = document.getElementById('start-btn'); //declaring a variable for the start button in the html
+const timerElement = document.getElementById('timer'); // declaring a variable for the timer element in the html
+var timerquiz = document.getElementById('timerquiz'); // declaring a variable for the timer element in the html
+var counter = 20
 
 let currentQuestionIndex = 0; //questions start at 0 index in the array 
 let score = 0; //score starts at 0
 
-startButton.addEventListener('click', startQuiz); //when the start button is clicked it will run the startQuiz function
+startButton.addEventListener('click', startQuiz, startTimer()); //when the start button is clicked it will run the startQuiz function
 
 function startQuiz() { 
     console.log('started');
@@ -56,6 +59,7 @@ function startQuiz() {
     questionContainerElement.classList.remove('hide'); //when you start the quiz, the question container will show
     nextButton.innerHTML = 'Next'; //when you restart
     showQuestion();
+
 }
 
 function showQuestion(){
@@ -92,6 +96,7 @@ function selectAnswer(e){
         score++; //this is adding 1 to the score
     }else{
         selectedBtn.classList.add('incorrect'); //this is adding the class of incorrect to the button that was clicked
+        counter -= 3;
     }
     Array.from(answerButton.children).forEach(button => {
         if(button.dataset.correct === "true"){ //for each button it is checking if the dataset is true and then will add the class of correct
@@ -130,4 +135,17 @@ nextButton.addEventListener("click", () => {
 })
 
 
-
+function startTimer() {
+    var timer = setInterval(function () {
+        //     what its doing for each interval
+        timerquiz.textContent = 'Timer:' + counter
+        counter--
+        if (counter < 0 || currentQuestionIndex >= questions.length) {
+            clearInterval(timer);
+            endQuiz();
+        }
+    }, 1000)
+}
+function endQuiz(){
+    questionContainerElement.style.display = 'none';
+}
