@@ -43,6 +43,7 @@ const answerButton = document.getElementById('answer-buttons'); //declaring a va
 const nextButton = document.getElementById('next-btn');// declaring a variable for the next button in the html
 const startButton = document.getElementById('start-btn'); //declaring a variable for the start button in the html
 const timerElement = document.getElementById('timer'); // declaring a variable for the timer element in the html
+const submitScoreButton = document.getElementById('submit');
 var timerquiz = document.getElementById('timerquiz'); // declaring a variable for the timer element in the html
 var counter = 20
 
@@ -50,6 +51,7 @@ let currentQuestionIndex = 0; //questions start at 0 index in the array
 let score = 0; //score starts at 0
 
 startButton.addEventListener('click', startQuiz); //when the start button is clicked it will run the startQuiz function
+;
 
 function startQuiz() { 
     console.log('started');
@@ -149,4 +151,22 @@ function startTimer() {
 }
 function endQuiz(){
     questionContainerElement.style.display = 'none';
+}
+
+function saveScore() {
+    const nameInput = document.getElementById('player-name');
+    const name = nameInput.value;
+    if (name.trim() === '') {
+        alert('Please enter your name');
+        return;
+    }
+
+    const scoreData = { name, score };
+    let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    highScores.push(scoreData);
+    highScores.sort((a, b) => b.score - a.score);
+    highScores = highScores.slice(0, 5);
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+    
+    alert('Your score has been saved!');
 }
