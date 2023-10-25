@@ -49,7 +49,7 @@ var counter = 20
 let currentQuestionIndex = 0; //questions start at 0 index in the array 
 let score = 0; //score starts at 0
 
-startButton.addEventListener('click', startQuiz, startTimer()); //when the start button is clicked it will run the startQuiz function
+startButton.addEventListener('click', startQuiz); //when the start button is clicked it will run the startQuiz function
 
 function startQuiz() { 
     console.log('started');
@@ -59,6 +59,7 @@ function startQuiz() {
     questionContainerElement.classList.remove('hide'); //when you start the quiz, the question container will show
     nextButton.innerHTML = 'Next'; //when you restart
     showQuestion();
+    startTimer();
 
 }
 
@@ -140,9 +141,9 @@ function startTimer() {
         //     what its doing for each interval
         timerquiz.textContent = 'Timer:' + counter
         counter--
-        if (counter < 0 || currentQuestionIndex >= questions.length) {
+        if (counter < 0 || currentQuestionIndex === questions.length) {
             clearInterval(timer);
-            endQuiz();
+            showScore();
         }
     }, 1000)
 }
