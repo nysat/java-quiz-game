@@ -36,11 +36,12 @@ const questions = [
         ]
     },
 ];
+
+const questionContainerElement = document.getElementById('quiz'); //declaring a variable for the question container in the html
 const questionElement = document.getElementById('question'); // declaring a variable for the question element in the html
 const answerButton = document.getElementById('answer-buttons'); //declaring a variable for the answer buttons in the html
 const nextButton = document.getElementById('next-btn');// declaring a variable for the next button in the html
 const startButton = document.getElementById('start-btn'); //declaring a variable for the start button in the html
-const hide = document.getElementById('hide'); //declaring a variable for the hide id in the html
 
 let currentQuestionIndex = 0; //questions start at 0 index in the array 
 let score = 0; //score starts at 0
@@ -48,12 +49,15 @@ let score = 0; //score starts at 0
 startButton.addEventListener('click', startQuiz); //when the start button is clicked it will run the startQuiz function
 
 function startQuiz() { 
+    console.log('started');
     currentQuestionIndex = 0; //when the quiz starts, the current question index is 0
     score = 0; //when the quiz starts, the score is 0
-    
+    startButton.classList.add('hide'); //when you start the quiz, the start button will hide
+    questionContainerElement.classList.remove('hide'); //when you start the quiz, the question container will show
     nextButton.innerHTML = 'Next'; //when you restart
     showQuestion();
 }
+
 function showQuestion(){
     resetState();
     let currentQuestion = questions[currentQuestionIndex]; //this will display the current question 
@@ -125,4 +129,5 @@ nextButton.addEventListener("click", () => {
     }
 })
 
-startQuiz(); //calling the function to start the quiz
+
+

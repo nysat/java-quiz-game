@@ -22,11 +22,9 @@ font-family: 'Nunito';
     border-bottom: 1px solid #333;
     padding-bottom: 30px;
 }
-.quiz{
+#quiz{
     padding: 20px 0;
-}
-.quiz h2{
-    font-size: 18px ;
+       font-size: 18px ;
     color: #333;
     font-weight: 600;
 }
@@ -87,6 +85,6 @@ font-family: 'Nunito';
 .incorrect{
     background: linear-gradient(32deg, red 0%, rgb(225, 12, 12, 1) 100%);
 }
-#hide{
+.hide{
     display: none;
 }
