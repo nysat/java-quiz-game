@@ -32,7 +32,7 @@ const questions = [
             { text: 'this one!', correct: true },
             { text: 'THis oNE >:(', correct: false },
             { text: 'i think its probably not this one', correct: false },
-            { text: 'definitely not this one!!', correct: false}
+            { text: 'definitely not this one!!', correct: false }
         ]
     },
 ];
@@ -53,7 +53,7 @@ let score = 0; //score starts at 0
 startButton.addEventListener('click', startQuiz); //when the start button is clicked it will run the startQuiz function
 ;
 
-function startQuiz() { 
+function startQuiz() {
     console.log('started');
     currentQuestionIndex = 0; //when the quiz starts, the current question index is 0
     score = 0; //when the quiz starts, the score is 0
@@ -65,7 +65,7 @@ function startQuiz() {
 
 }
 
-function showQuestion(){
+function showQuestion() {
     resetState();
     let currentQuestion = questions[currentQuestionIndex]; //this will display the current question 
     let questionNo = currentQuestionIndex + 1; //current question index plus one to display the question we are tryin to get 
@@ -77,32 +77,32 @@ function showQuestion(){
         button.innerHTML = answer.text;//in that button we have to put text in it so we are putting the answer-text from the array in it
         button.classList.add('btn');
         answerButton.appendChild(button);//adding the things from the array into the "buttons"
-        if (answer.correct){
+        if (answer.correct) {
             button.dataset.correct = answer.correct;
         }
         button.addEventListener('click', selectAnswer);//when the button is clicked it will run the selectAnswer function
     })
 }
 
-function resetState(){
+function resetState() {
     nextButton.style.display = 'none'; //this is hiding the next button
-    while(answerButton.firstChild){ //this is removing the answer buttons
+    while (answerButton.firstChild) { //this is removing the answer buttons
         answerButton.removeChild(answerButton.firstChild);
     }
 }
 
-function selectAnswer(e){
+function selectAnswer(e) {
     const selectedBtn = e.target; //this is targeting the button that was clicked
     const isCorrect = selectedBtn.dataset.correct === "true";
-    if (isCorrect){
+    if (isCorrect) {
         selectedBtn.classList.add('correct'); //this is adding the class of correct to the button that was clicked
         score++; //this is adding 1 to the score
-    }else{
+    } else {
         selectedBtn.classList.add('incorrect'); //this is adding the class of incorrect to the button that was clicked
         counter -= 3;
     }
     Array.from(answerButton.children).forEach(button => {
-        if(button.dataset.correct === "true"){ //for each button it is checking if the dataset is true and then will add the class of correct
+        if (button.dataset.correct === "true") { //for each button it is checking if the dataset is true and then will add the class of correct
             button.classList.add('correct');
         }
         button.disabled = true; //after that it will disable the buttons so you cant click them again
@@ -110,29 +110,31 @@ function selectAnswer(e){
     nextButton.style.display = 'block'; //the next button will display after you click an answer
 }
 
-function showScore(){
+function showScore() {
     resetState();
     questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
     nextButton.innerHTML = 'Restart';
     nextButton.style.display = 'block';
+    document.getElementById('highscores').classList.remove('hide')
+    document.getElementById('buttons').classList.add('hide')
 }
 
 
-function handleNextButton(){
+function handleNextButton() {
     currentQuestionIndex++; //this is adding 1 to the current question index
-    if(currentQuestionIndex < questions.length){ //if the current question index is less than the length of the questions array
+    if (currentQuestionIndex < questions.length) { //if the current question index is less than the length of the questions array
         showQuestion(); //then it will show the next question
-} else{
-    showScore();
-}
+    } else {
+        showScore();
+    }
 }
 
 
 
 nextButton.addEventListener("click", () => {
-    if(currentQuestionIndex < questions.length){
+    if (currentQuestionIndex < questions.length) {
         handleNextButton();
-    }else{
+    } else {
         startQuiz();
     }
 })
@@ -149,17 +151,14 @@ function startTimer() {
         }
     }, 1000)
 }
-function endQuiz(){
+function endQuiz() {
     questionContainerElement.style.display = 'none';
+
 }
 
 function saveScore() {
     const nameInput = document.getElementById('player-name');
     const name = nameInput.value;
-    if (name.trim() === '') {
-        alert('Please enter your name');
-        return;
-    }
 
     const scoreData = { name, score };
     let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
@@ -167,6 +166,28 @@ function saveScore() {
     highScores.sort((a, b) => b.score - a.score);
     highScores = highScores.slice(0, 5);
     localStorage.setItem('highScores', JSON.stringify(highScores));
-    
+
     alert('Your score has been saved!');
+    displayHighScores();
 }
+
+
+function displayHighScores() {
+    // Get the high scores from local storage
+    let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+
+    // Get a reference to the ul element in the Highscores div
+    let highScoresList = document.getElementById('HSList');
+
+    // Create a new list item for each high score and append it to the list
+    highScores.forEach(scoreData => {
+        let listItem = document.createElement('li');
+        listItem.textContent = `${scoreData.name}: ${scoreData.score}`;
+        highScoresList.appendChild(listItem);
+    });
+}
+
+document.getElementById('highscore-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    saveScore();
+});
