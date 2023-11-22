@@ -175,8 +175,6 @@ function saveScore() {
 function displayHighScores() {
     // Get the high scores from local storage
     let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
-
-    // Get a reference to the ul element in the Highscores div
     let highScoresList = document.getElementById('HSList');
 
     // Create a new list item for each high score and append it to the list
